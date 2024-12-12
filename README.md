@@ -1,10 +1,10 @@
 ![SafetyGopher](./docs/file.png)
-## GopherGate - Simple Rate Limiter in Go
+# GopherGate - Simple Rate Limiter in Go
 
 ---
 
 A simple and reusable request rate-limiting microservice that protects external applications' endpoints.
-### Idea
+## Idea
 ```go
 const (
 	MAX_BUCKET_SIZE float64 = 10
