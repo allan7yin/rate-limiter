@@ -1,7 +1,10 @@
-## Rate Limiter
+![SafetyGopher](./docs/file.png)
+## GopherGate - Simple Rate Limiter in Go
 
-This is rate limiter built to learn more about distributed systems. This was built 
-for use by my distributed image store. The general algorithm followed is simple:
+---
+
+A simple and reusable request rate-limiting microservice that protects external applications' endpoints.
+### Idea
 ```go
 const (
 	MAX_BUCKET_SIZE float64 = 10
