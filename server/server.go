@@ -1,6 +1,7 @@
 package server
 
 import (
+	"errors"
 	"log"
 	"net/http"
 )
@@ -16,10 +17,10 @@ func NewServer() *Server {
 	}
 }
 
-func (s *Server) Start(addr string) error {
+func (s *Server) Start(addr, certPath, keyPath string) error {
 	log.Printf("Starting server at %s", addr)
-	err := http.ListenAndServe(addr, s.mux)
-	if err != nil && err != http.ErrServerClosed {
+	err := http.ListenAndServeTLS(addr, certPath, keyPath, s.mux)
+	if err != nil && !errors.Is(err, http.ErrServerClosed) {
 		log.Printf("Server error: %v", err)
 		return err
 	}

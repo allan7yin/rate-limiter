@@ -13,6 +13,8 @@ type Config struct {
 	BucketKey        string
 	BucketMaxTokens  int64
 	BucketRefillRate float64
+	CertPem          string
+	KeyPem           string
 }
 
 func LoadConfig() *Config {
@@ -27,6 +29,8 @@ func LoadConfig() *Config {
 		BucketKey:        getEnv("BUCKET_KEY", "KEY1"),
 		BucketMaxTokens:  getIntEnv("BUCKET_MAX_TOKENS", 10),
 		BucketRefillRate: getFloatEnv("BUCKET_REFILL_RATE", 1.0),
+		CertPem:          getEnv("CERT_PEM", "cert.pem"),
+		KeyPem:           getEnv("KEY_PEM", "key.perm"),
 	}
 }
 
