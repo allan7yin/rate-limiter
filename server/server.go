@@ -17,9 +17,9 @@ func NewServer() *Server {
 	}
 }
 
-func (s *Server) Start(addr, certPath, keyPath string) error {
+func (s *Server) Start(addr string) error {
 	log.Printf("Starting server at %s", addr)
-	err := http.ListenAndServeTLS(addr, certPath, keyPath, s.mux)
+	err := http.ListenAndServe(addr, s.mux)
 	if err != nil && !errors.Is(err, http.ErrServerClosed) {
 		log.Printf("Server error: %v", err)
 		return err

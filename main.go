@@ -3,14 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
-	"net/http"
-	"path/filepath"
-
 	"github.com/allan7yin/rate-limiter/config"
 	"github.com/allan7yin/rate-limiter/limiter"
 	"github.com/allan7yin/rate-limiter/server"
 	"github.com/redis/go-redis/v9"
+	"log"
+	"net/http"
 )
 
 func RateLimiterMiddleware(rtb *limiter.RedisTokenBucket) func(http.Handler) http.Handler {
@@ -27,6 +25,7 @@ func RateLimiterMiddleware(rtb *limiter.RedisTokenBucket) func(http.Handler) htt
 
 			if !allowed {
 				http.Error(w, "Too Many Requests", http.StatusTooManyRequests)
+				log.Println("Too Many Requests")
 				return
 			}
 
@@ -56,17 +55,15 @@ func main() {
 
 	s := server.NewServer()
 	port := "localhost:" + c.AppPort
-	certPath, _ := filepath.Abs(c.CertPem)
-	keyPath, _ := filepath.Abs(c.KeyPem)
 
 	rateLimitedHandler := RateLimiterMiddleware(rtb)(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Request allowed!"))
 	}))
 
 	// TODO: Add handler to make API call to ImageStore
-	s.AddRoute("/v1", rateLimitedHandler)
+	s.AddRoute("/v1/test", rateLimitedHandler)
 
-	err = s.Start(port, certPath, keyPath)
+	err = s.Start(port)
 	if err != nil {
 		return
 	}
